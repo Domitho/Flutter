@@ -8,6 +8,8 @@ class DbConnection {
   static Future<Database> getDb() async {
     final dbPath = join(await getDatabasesPath(), dbName);
 
+    //await deleteDatabase(dbPath);
+
     return openDatabase(
       dbPath,
       onCreate: (db, version) async {
@@ -34,6 +36,21 @@ class DbConnection {
           'orderDate TEXT, '
           'status TEXT)',
         );
+
+        await db.execute(
+          'CREATE TABLE usuarios('
+          'id INTEGER PRIMARY KEY AUTOINCREMENT, '
+          'nombre TEXT, '
+          'email TEXT UNIQUE, '
+          'password TEXT)',
+        );
+
+        // Usuario por defecto
+        await db.insert('usuarios', {
+          'nombre': 'admin',
+          'email': 'admin@demo.com',
+          'password': '1234', // Considera cifrar en el futuro
+        });
 
         // Datos iniciales
         await db.execute(

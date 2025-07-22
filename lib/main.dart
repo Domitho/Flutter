@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'screens/inventario/inventario_screen.dart';
 import 'screens/pedidos/pedidos_list_screen.dart';
-import 'main_screen.dart'; // tu diseño de scaffold con AppBar y BottomNavigationBar
+import 'main_screen.dart';
+import 'screens/settings/login_screen.dart'; // ✅ NUEVO IMPORT
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Paloma´s Restaurants',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.yellow),
-      home: NavigationController(), // ahora usamos este como pantalla principal
+      home: LoginScreen(), // ✅ MOSTRAR LOGIN INICIALMENTE
     );
   }
 }
@@ -32,12 +33,11 @@ class NavigationController extends StatefulWidget {
 class _NavigationControllerState extends State<NavigationController> {
   int _selectedIndex = 0;
 
-  // Lista de pantallas según el índice del menú inferior
   static final List<Widget> _screens = <Widget>[
-    Center(child: Text('Bienvenido a Paloma´s Restaurants')), // Inicio
-    Center(child: Text('Balance (en construcción)')), // Balance
-    PedidosListScreen(), // Pedidos
-    InventarioScreen(), // Inventario
+    Center(child: Text('Bienvenido a Paloma´s Restaurants')),
+    Center(child: Text('Balance (en construcción)')),
+    PedidosListScreen(),
+    InventarioScreen(),
   ];
 
   void _onItemTapped(int index) {
