@@ -127,10 +127,12 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return 'Este campo es obligatorio';
-                  if (int.tryParse(value) == null)
+                  }
+                  if (int.tryParse(value) == null) {
                     return 'Ingrese un valor numérico';
+                  }
                   return null;
                 },
               ),

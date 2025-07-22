@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/categoria/categoria_list_screen.dart';
 import 'screens/inventario/inventario_screen.dart';
 import 'screens/pedidos/pedidos_list_screen.dart';
+import 'screens/empleados/empleado_list_screen.dart'; // ✅ NUEVO IMPORT
 import 'main_screen.dart';
 import 'screens/settings/login_screen.dart';
 
@@ -39,6 +40,7 @@ class _NavigationControllerState extends State<NavigationController> {
     CategoriaListScreen(), // 1: Categorías
     PedidosListScreen(), // 2: Pedidos
     InventarioScreen(), // 3: Inventario
+    EmpleadoListScreen(), // ✅ 4: Empleados
   ];
 
   void _onItemTapped(int index) {

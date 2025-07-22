@@ -57,6 +57,16 @@ class DbConnection {
           'password TEXT)',
         );
 
+        await db.execute('''
+          CREATE TABLE empleados (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            rol TEXT NOT NULL,
+            telefono TEXT,
+            email TEXT
+          )
+        ''');
+
         final now = DateTime.now().toIso8601String();
 
         final categoriaId = await db.insert('categoria', {

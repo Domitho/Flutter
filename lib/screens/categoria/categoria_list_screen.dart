@@ -51,8 +51,8 @@ class _CategoriaListScreenState extends State<CategoriaListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _navigateToForm(),
-        child: Icon(Icons.add),
         backgroundColor: Colors.yellow[800],
+        child: Icon(Icons.add),
       ),
       body: ListView.builder(
         itemCount: _categorias.length,

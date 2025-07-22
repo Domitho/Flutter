@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/settings/login_screen.dart';
 
 class MainScreen extends StatelessWidget {
   final Widget body;
@@ -20,12 +21,31 @@ class MainScreen extends StatelessWidget {
         title: Text('Paloma´s Restaurants'),
         backgroundColor: Colors.yellow[600],
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
+          PopupMenuButton<String>(
+            icon: CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.person, color: Colors.yellow[600]),
             ),
+            onSelected: (value) {
+              if (value == 'logout') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.logout, color: Colors.black54),
+                    SizedBox(width: 8),
+                    Text('Cerrar sesión'),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -35,6 +55,7 @@ class MainScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: onItemTapped,
+        type: BottomNavigationBarType.fixed, // para que muestre más de 4 ítems
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
           BottomNavigationBarItem(
@@ -46,6 +67,7 @@ class MainScreen extends StatelessWidget {
             icon: Icon(Icons.inventory),
             label: 'Inventario',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Empleados'),
         ],
         selectedItemColor: Colors.yellow[600],
         unselectedItemColor: Colors.grey,
