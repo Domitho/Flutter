@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/inventario_model.dart';
+import '../../models/categoria_model.dart';
 import '../../repositories/inventario_repository.dart';
+import '../../repositories/categoria_repository.dart';
 
 class InventarioFormScreen extends StatefulWidget {
   final Breakfast? breakfast;
@@ -14,12 +16,15 @@ class InventarioFormScreen extends StatefulWidget {
 class _InventarioFormScreenState extends State<InventarioFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _codeController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _stockController = TextEditingController();
-  final TextEditingController _imageUrlController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _codeController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _stockController = TextEditingController();
+  final _imageUrlController = TextEditingController();
+
+  List<Categoria> _categorias = [];
+  int? _categoriaSeleccionada;
 
   @override
   void initState() {
@@ -31,7 +36,20 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
       _priceController.text = widget.breakfast!.price.toString();
       _stockController.text = widget.breakfast!.stock.toString();
       _imageUrlController.text = widget.breakfast!.imageUrl;
+      _categoriaSeleccionada = widget.breakfast!.categoriaId;
     }
+
+    _cargarCategorias();
+  }
+
+  void _cargarCategorias() async {
+    final categorias = await CategoriaRepository.list();
+    setState(() {
+      _categorias = categorias;
+      _categoriaSeleccionada ??= categorias.isNotEmpty
+          ? categorias.first.id
+          : null;
+    });
   }
 
   void saveRecord() async {
@@ -44,6 +62,7 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
         price: int.tryParse(_priceController.text) ?? 0,
         stock: int.tryParse(_stockController.text) ?? 0,
         imageUrl: _imageUrlController.text,
+        categoriaId: _categoriaSeleccionada!,
       );
 
       if (widget.breakfast == null) {
@@ -72,22 +91,17 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              // Nombre del producto
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: 'Nombre del producto *',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Este campo es obligatorio';
-                  }
-                  return null;
-                },
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Este campo es obligatorio'
+                    : null,
               ),
               SizedBox(height: 16),
-              // Descripción
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
@@ -96,7 +110,6 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                 ),
               ),
               SizedBox(height: 16),
-              // Código
               TextFormField(
                 controller: _codeController,
                 decoration: InputDecoration(
@@ -105,7 +118,6 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                 ),
               ),
               SizedBox(height: 16),
-              // Precio
               TextFormField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
@@ -115,17 +127,14 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty)
                     return 'Este campo es obligatorio';
-                  }
-                  if (int.tryParse(value) == null) {
+                  if (int.tryParse(value) == null)
                     return 'Ingrese un valor numérico';
-                  }
                   return null;
                 },
               ),
               SizedBox(height: 16),
-              // Stock
               TextFormField(
                 controller: _stockController,
                 keyboardType: TextInputType.number,
@@ -135,7 +144,6 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                 ),
               ),
               SizedBox(height: 16),
-              // URL Imagen
               TextFormField(
                 controller: _imageUrlController,
                 decoration: InputDecoration(
@@ -143,8 +151,28 @@ class _InventarioFormScreenState extends State<InventarioFormScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(height: 16),
+              DropdownButtonFormField<int>(
+                value: _categoriaSeleccionada,
+                decoration: InputDecoration(
+                  labelText: 'Categoría *',
+                  border: OutlineInputBorder(),
+                ),
+                items: _categorias.map((cat) {
+                  return DropdownMenuItem(
+                    value: cat.id,
+                    child: Text(cat.nombre),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _categoriaSeleccionada = value!;
+                  });
+                },
+                validator: (value) =>
+                    value == null ? 'Seleccione una categoría' : null,
+              ),
               SizedBox(height: 24),
-              // Botón Guardar
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

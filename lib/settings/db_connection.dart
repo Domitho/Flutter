@@ -13,17 +13,29 @@ class DbConnection {
     return openDatabase(
       dbPath,
       onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE categoria (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            descripcion TEXT,
+            created_at TEXT
+          )
+        ''');
+
         // Crear tabla breakfast
-        await db.execute(
-          'CREATE TABLE breakfast('
-          'id INTEGER PRIMARY KEY, '
-          'name TEXT, '
-          'description TEXT, '
-          'code TEXT, '
-          'price NUMERIC, '
-          'stock INT, '
-          'imageUrl TEXT)',
-        );
+        await db.execute('''
+          CREATE TABLE breakfast (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            description TEXT,
+            code TEXT,
+            price NUMERIC,
+            stock INT,
+            imageUrl TEXT,
+            categoria_id INTEGER,
+            FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+          )
+        ''');
 
         // Crear tabla pedidos
         await db.execute(
@@ -45,6 +57,14 @@ class DbConnection {
           'password TEXT)',
         );
 
+        final now = DateTime.now().toIso8601String();
+
+        final categoriaId = await db.insert('categoria', {
+          'nombre': 'Sin categoría',
+          'descripcion': 'Categoría por defecto',
+          'created_at': now,
+        });
+
         // Usuario por defecto
         await db.insert('usuarios', {
           'nombre': 'admin',
@@ -53,10 +73,15 @@ class DbConnection {
         });
 
         // Datos iniciales
-        await db.execute(
-          "INSERT INTO breakfast(name, description, code, price, stock, imageUrl) "
-          "VALUES('Desayuno Inicial', 'Primer desayuno registrado', '001', 0, 0, '')",
-        );
+        await db.insert('breakfast', {
+          'name': 'Desayuno Inicial',
+          'description': 'Primer desayuno registrado',
+          'code': '001',
+          'price': 0,
+          'stock': 0,
+          'imageUrl': '',
+          'categoria_id': categoriaId,
+        });
       },
       version: version,
     );

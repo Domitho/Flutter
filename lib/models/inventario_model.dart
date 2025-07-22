@@ -6,6 +6,7 @@ class Breakfast {
   int price;
   int stock;
   String imageUrl;
+  int categoriaId; // ✅ NUEVO CAMPO
 
   Breakfast({
     this.id,
@@ -15,9 +16,10 @@ class Breakfast {
     required this.price,
     required this.stock,
     required this.imageUrl,
+    required this.categoriaId, // ✅ requerido
   });
 
-  // Método copyWith para actualizar los campos que deseas
+  // Método copyWith
   Breakfast copyWith({
     int? id,
     String? name,
@@ -26,6 +28,7 @@ class Breakfast {
     int? price,
     int? stock,
     String? imageUrl,
+    int? categoriaId,
   }) {
     return Breakfast(
       id: id ?? this.id,
@@ -35,10 +38,10 @@ class Breakfast {
       price: price ?? this.price,
       stock: stock ?? this.stock,
       imageUrl: imageUrl ?? this.imageUrl,
+      categoriaId: categoriaId ?? this.categoriaId,
     );
   }
 
-  // Métodos de transformación de clase a mapa
   Map<String, dynamic> toMap() {
     return {
       "id": id,
@@ -48,10 +51,11 @@ class Breakfast {
       "price": price,
       "stock": stock,
       "imageUrl": imageUrl,
+      "categoria_id":
+          categoriaId, // ✅ importante que coincida con la columna real
     };
   }
 
-  // Factory method to create an instance of Breakfast from a map
   factory Breakfast.fromMap(Map<String, dynamic> data) {
     return Breakfast(
       id: data["id"],
@@ -61,6 +65,7 @@ class Breakfast {
       price: data["price"],
       stock: data["stock"],
       imageUrl: data["imageUrl"],
+      categoriaId: data["categoria_id"], // ✅
     );
   }
 }

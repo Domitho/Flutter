@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance),
-            label: 'Balance',
+            label: 'Categorias',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.check), label: 'Pedidos'),
           BottomNavigationBarItem(
