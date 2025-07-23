@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../../repositories/usuario_repository.dart';
 import 'registro_usuario_screen.dart';
@@ -22,11 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final user = await repo.login(email, password);
 
     if (user != null) {
+      // ✅ Guardar nombre en SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('nombre_usuario', user.nombre);
+
+      // Ir al menú principal
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => NavigationController(),
-        ), // ir al menú principal
+        MaterialPageRoute(builder: (_) => NavigationController()),
       );
     } else {
       showDialog(
@@ -57,7 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo
                   Icon(Icons.lock, size: 100, color: Colors.white),
                   SizedBox(height: 20),
                   Text(
@@ -90,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Contraseña',
                       labelStyle: TextStyle(color: Colors.white),
                       filled: true,
-                      // ignore: deprecated_member_use
                       fillColor: Colors.white.withOpacity(0.8),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),

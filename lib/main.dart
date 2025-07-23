@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Paloma´s Restaurants',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.yellow),
-      home: LoginScreen(),
+      home: LoginScreen(), // ✅ Inicia con login
     );
   }
 }
