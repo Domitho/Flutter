@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/categoria/categoria_list_screen.dart';
 import 'screens/inventario/inventario_screen.dart';
 import 'screens/pedidos/pedidos_list_screen.dart';
-import 'screens/empleados/empleado_list_screen.dart'; // ✅ NUEVO IMPORT
+import 'screens/empleados/empleado_list_screen.dart';
 import 'main_screen.dart';
 import 'screens/settings/login_screen.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Paloma´s Restaurants',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.yellow),
-      home: LoginScreen(), // ✅ Inicia con login
+      home: LoginScreen(),
     );
   }
 }

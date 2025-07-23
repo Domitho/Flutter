@@ -6,7 +6,7 @@ class Breakfast {
   int price;
   int stock;
   String imageUrl;
-  int categoriaId; // ✅ NUEVO CAMPO
+  int categoriaId;
 
   Breakfast({
     this.id,
@@ -16,7 +16,7 @@ class Breakfast {
     required this.price,
     required this.stock,
     required this.imageUrl,
-    required this.categoriaId, // ✅ requerido
+    required this.categoriaId,
   });
 
   // Método copyWith
@@ -51,8 +51,7 @@ class Breakfast {
       "price": price,
       "stock": stock,
       "imageUrl": imageUrl,
-      "categoria_id":
-          categoriaId, // ✅ importante que coincida con la columna real
+      "categoria_id": categoriaId,
     };
   }
 
@@ -65,7 +64,7 @@ class Breakfast {
       price: data["price"],
       stock: data["stock"],
       imageUrl: data["imageUrl"],
-      categoriaId: data["categoria_id"], // ✅
+      categoriaId: data["categoria_id"], //
     );
   }
 }

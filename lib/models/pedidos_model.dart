@@ -44,7 +44,7 @@ class BreakfastOrder {
     return {
       'id': id,
       'customerName': customerName,
-      'breakfast': jsonEncode(breakfast.toMap()), // 👈 Guardamos como String
+      'breakfast': jsonEncode(breakfast.toMap()),
       'quantity': quantity,
       'totalPrice': totalPrice,
       'orderDate': orderDate.toIso8601String(),
@@ -56,9 +56,7 @@ class BreakfastOrder {
     return BreakfastOrder(
       id: data['id'],
       customerName: data['customerName'],
-      breakfast: Breakfast.fromMap(
-        jsonDecode(data['breakfast']),
-      ), // 👈 Decodificamos
+      breakfast: Breakfast.fromMap(jsonDecode(data['breakfast'])),
       quantity: data['quantity'],
       totalPrice: data['totalPrice'],
       orderDate: DateTime.parse(data['orderDate']),
