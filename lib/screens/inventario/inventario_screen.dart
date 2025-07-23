@@ -176,10 +176,9 @@ class _InventarioScreenState extends State<InventarioScreen> {
             ],
           ),
           actions: [
-            // Cerrar el modal con el botón de cancelar
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Cerrar el modal sin hacer nada
+                Navigator.pop(context);
               },
               child: Text('Cancelar', style: TextStyle(color: Colors.black)),
             ),

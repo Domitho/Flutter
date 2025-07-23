@@ -23,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final user = await repo.login(email, password);
 
     if (user != null) {
-      // ✅ Guardar nombre en SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('nombre_usuario', user.nombre);
 
@@ -49,7 +48,10 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.lightBlueAccent],
+            colors: [
+              const Color.fromARGB(255, 240, 234, 171),
+              Colors.yellowAccent,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -68,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 84, 84, 84),
                     ),
                   ),
                   SizedBox(height: 40),
@@ -76,9 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.black),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                      fillColor: Colors.white.withValues(
+                        red: 1.0,
+                        green: 1.0,
+                        blue: 1.0,
+                        alpha: 0.8, // Ajusta la opacidad aquí
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -91,9 +98,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Contraseña',
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.black),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                      fillColor: Colors.white.withValues(
+                        red: 1.0,
+                        green: 1.0,
+                        blue: 1.0,
+                        alpha: 0.8,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -101,20 +113,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 15),
                       ),
-                      backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 15,
-                      ),
+                      child: Text('Ingresar', style: TextStyle(fontSize: 18)),
                     ),
-                    child: Text('Ingresar', style: TextStyle(fontSize: 18)),
                   ),
                   SizedBox(height: 10),
                   TextButton(
@@ -128,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: Text(
                       '¿No tienes cuenta? Regístrate aquí',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

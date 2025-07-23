@@ -61,38 +61,84 @@ class _EmpleadoListScreenState extends State<EmpleadoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Empleados'),
-        backgroundColor: Colors.yellow[700],
-        foregroundColor: Colors.black,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.yellow[800],
-        onPressed: () => _irAlFormulario(),
-        child: Icon(Icons.add),
-      ),
-      body: ListView.builder(
-        itemCount: _empleados.length,
-        itemBuilder: (_, i) {
-          final emp = _empleados[i];
-          return ListTile(
-            title: Text(emp.nombre),
-            subtitle: Text(emp.rol),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => _irAlFormulario(empleado: emp),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Mostrar mensaje si no hay empleados
+            if (_empleados.isEmpty)
+              Expanded(
+                child: Center(child: Text('No hay empleados registrados')),
+              ),
+            // Mostrar la lista de empleados si hay datos
+            if (_empleados.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _empleados.length,
+                  itemBuilder: (_, i) {
+                    final emp = _empleados[i];
+                    return Card(
+                      elevation: 6,
+                      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ), // Bordes redondeados
+                      ),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(16),
+                        title: Text(
+                          emp.nombre,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          emp.rol,
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit, color: Colors.blue),
+                              onPressed: () => _irAlFormulario(empleado: emp),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _eliminarEmpleado(emp.id!),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _eliminarEmpleado(emp.id!),
+              ),
+            // Botón flotante para crear un nuevo empleado
+            Container(
+              width: double.infinity, // Hace que el botón ocupe todo el ancho
+              margin: EdgeInsets.only(bottom: 20),
+              child: ElevatedButton(
+                onPressed: () => _irAlFormulario(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Fondo negro
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      8,
+                    ), // Bordes redondeados
+                  ),
                 ),
-              ],
+                child: Text(
+                  'Crear empleado',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
